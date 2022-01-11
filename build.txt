@@ -1,0 +1,3 @@
+displayName = Cleric Class
+author = nightlight
+version = 0.1
