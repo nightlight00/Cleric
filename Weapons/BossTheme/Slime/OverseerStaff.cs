@@ -28,7 +28,7 @@ namespace clericclass.Weapons.BossTheme.Slime
 			item.useStyle = ItemUseStyleID.HoldingUp;
 			item.knockBack = 2.3f;
 			item.value = 10000;
-			item.rare = 3;
+			item.rare = 1;
 			item.UseSound = SoundID.Item1;
 			item.shoot = ModContent.ProjectileType<SlimeConstruct>();
 			item.noMelee = true;
@@ -41,15 +41,6 @@ namespace clericclass.Weapons.BossTheme.Slime
 		{
 			position = Main.MouseWorld;
 			return true;
-		}
-
-		public override void AddRecipes()
-		{
-			ModRecipe recipe = new ModRecipe(mod);
-			recipe.AddIngredient(ItemID.Bone, 50);
-			recipe.AddTile(TileID.WorkBenches);
-			recipe.SetResult(this);
-			recipe.AddRecipe();
 		}
 	}
 
