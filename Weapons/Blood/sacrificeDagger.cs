@@ -60,7 +60,7 @@ namespace clericclass.Weapons.Blood
         {
 			projectile.height = projectile.width = 12;
 			projectile.friendly = true;
-			projectile.timeLeft = 120;
+			projectile.timeLeft = 140;
 			projectile.ignoreWater = true;
 			projectile.alpha = 255;
         }
@@ -92,7 +92,10 @@ namespace clericclass.Weapons.Blood
 
         public override void AI()
         {
-			projectile.velocity.Y += 0.1f;
+			if (projectile.timeLeft < 120)
+			{
+				projectile.velocity.Y += 0.1f;
+			}
             for (var i = 0; i < 2; i++)
             {
 				Dust d = Dust.NewDustDirect(projectile.position, projectile.width, projectile.height, 5, -projectile.velocity.X * 0.75f, -projectile.velocity.Y * 0.75f);

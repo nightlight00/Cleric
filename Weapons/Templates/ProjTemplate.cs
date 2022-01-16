@@ -40,6 +40,22 @@ namespace clericclass.Weapons.Templates
             }
         }
 
+        // for spawning new projectiles that have unique damage values so that they gain the bonuses
+        public virtual void ClericProjectile(Player owner, Vector2 position, Vector2 velocity, int type, int damage, float knockback, bool radiant, float ai0 = 0, float ai1 = 0)
+        {
+            if (radiant)
+            {
+                damage += (int)clericmodplayer.ModPlayer(owner).clericRadientAdd;
+                damage = (int)(damage * clericmodplayer.ModPlayer(owner).clericRadientMult + ((clericmodplayer.ModPlayer(owner).clericNecroticMult - 1) * 0.25f));
+            }
+            else
+            {
+                damage += (int)clericmodplayer.ModPlayer(owner).clericNecroticAdd;
+                damage = (int)(damage * clericmodplayer.ModPlayer(owner).clericNecroticMult + ((clericmodplayer.ModPlayer(owner).clericRadientMult - 1) * 0.25f));
+            }
+            Projectile.NewProjectile(position, velocity, type, damage, knockback, owner.whoAmI, ai0, ai1);
+        }
+
         public virtual void Heal(Player owner, Player target, string style, int heal, bool draw = false)
         {
             var amount = heal + owner.GetModPlayer<modplayer>().healBonus;

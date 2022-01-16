@@ -50,7 +50,7 @@ namespace clericclass.Weapons.Melee
             if (player.altFunctionUse == 2)
             {
                 item.useTime = item.useAnimation = 20;
-                item.knockBack = 0;
+                item.knockBack = 3;
                 item.shoot = ModContent.ProjectileType<SpiritGuardians>();
                 item.noUseGraphic = true;
                 item.noMelee = true;
@@ -88,7 +88,7 @@ namespace clericclass.Weapons.Melee
                 //Projectile.NewProjectile(player.Center, new Vector2(0, 0), ModContent.ProjectileType<SpiritGuardians>(), 15, 0);
                 for (var i = 0; i < 3; i++)
                 {
-                    Projectile.NewProjectile(player.Center, new Vector2(0, 0), ModContent.ProjectileType<GuardianFly>(), 30, 0, player.whoAmI, i);
+                    Projectile.NewProjectile(player.Center, new Vector2(0, 0), ModContent.ProjectileType<GuardianFly>(), (int)(damage * 1.5f), knockBack*2, player.whoAmI, i);
                 }
                 Timer = 900;
                 return true;
@@ -126,6 +126,14 @@ namespace clericclass.Weapons.Melee
         Vector2 pos;
         float dist = 96;
         float spd = 0.065f;
+
+        public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
+        {
+            if (projectile.position.X < pos.X)
+            {
+                hitDirection = -hitDirection;
+            }
+        }
 
         public override void AI()
         {
