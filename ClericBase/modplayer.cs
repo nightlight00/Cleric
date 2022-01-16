@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -51,8 +52,13 @@ namespace clericclass.ClericBase
                         Item.NewItem(npc.getRect(), ModContent.ItemType<Weapons.PreBoss.Basic.GraniteStaff>(), 1);
                     }
                     break;
+                case NPCID.KingSlime:
+                    if (Main.rand.NextBool(2) && Main.hardMode)
+                    {
+                        Item.NewItem(npc.getRect(), ModContent.ItemType<Weapons.BossTheme.Slime.OverseerStaff>(), 1);
+                    }
+                    break;
             }
-
         }
     }
 
@@ -78,6 +84,7 @@ namespace clericclass.ClericBase
         public bool flamesilkSetBonus = false;
         public bool heartSetBonus = false;
         public bool worshipSetBonusEffect = false;
+        public bool astridSetElemental = false;
 
         // for ease of use
         public bool currentWeaponEvil = false;
@@ -101,12 +108,12 @@ namespace clericclass.ClericBase
             flamesilkSetBonus = false;
             heartSetBonus = false;
             worshipSetBonusEffect = false;
+            astridSetElemental = false;
 
             currentWeaponEvil = false;
             charmEquppied = false;
         }
 
-        int heartTimer = 0;
         public override void UpdateBadLifeRegen()
         {
             if (anguish)

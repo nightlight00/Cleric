@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Terraria;
 using Terraria.ModLoader;
+using System;
 
 namespace clericclass.ClericBase
 {
@@ -13,6 +14,7 @@ namespace clericclass.ClericBase
 			return player.GetModPlayer<clericmodplayer>();
 		}
 
+		// radiant is mispelled lol
 		public float clericRadientAdd;
 		public float clericRadientMult = 1f;
 		public float clericNecroticAdd;
@@ -78,9 +80,11 @@ namespace clericclass.ClericBase
 			}
 			else
             {
-				// same as above in reverse
+				// same as above but in reverse
 				flat += clericmodplayer.ModPlayer(player).clericNecroticAdd;
 				mult *= clericmodplayer.ModPlayer(player).clericNecroticMult + ((clericmodplayer.ModPlayer(player).clericRadientMult - 1) * 0.25f);
+
+				//clericResourceCost -= player.GetModPlayer<modplayer>().bloodCost;
 			}
 		}
 		
@@ -112,6 +116,7 @@ namespace clericclass.ClericBase
         public override void ModifyTooltips(List<TooltipLine> tooltips)
 		{
 			// Get the vanilla damage tooltip
+			var modPlayer = clericmodplayer.ModPlayer(Main.player[item.owner]);
 			TooltipLine tt = tooltips.FirstOrDefault(x => x.Name == "Damage" && x.mod == "Terraria");
 			if (tt != null)
 			{
@@ -120,9 +125,17 @@ namespace clericclass.ClericBase
 				string damageWord = splitText.Last();
 				// Change the tooltip text
 				string damageType = " radiant ";
-				if (clericEvil) { damageType = " necrotic ";  }
-
-				tt.text = damageValue + damageType + damageWord;
+				float dmg = (float)Math.Round((modPlayer.clericRadientMult - 1), 2) * 100;
+				float dmgOp = (float)Math.Round((modPlayer.clericNecroticMult - 1) * 0.25f, 2) * 100;
+				string percent = $" ({dmg}% radiant + {dmgOp}% necrotic)";
+				if (clericEvil) { 
+					damageType = " necrotic ";
+					dmg = (float)Math.Round((modPlayer.clericNecroticMult - 1), 2) * 100;
+					dmgOp = (float)Math.Round((modPlayer.clericRadientMult - 1) * 0.25f, 2) * 100; 
+					percent = $" ({dmg}% necrotic + {dmgOp}% radiant)";
+				}
+				
+				tt.text = damageValue + damageType + damageWord + percent;
 			}
 
 			if (clericResourceCost > 0)
@@ -142,7 +155,7 @@ namespace clericclass.ClericBase
 			return true;
 		}
 
-		public override bool CanUseItem(Player player)
+        public override bool CanUseItem(Player player)
 		{
 			if (!SafeCanUseItem(player))
             {
@@ -151,6 +164,7 @@ namespace clericclass.ClericBase
 
 			if (clericEvil)
 			{
+				if (clericResourceCost <= 0) { return true; }
 				if (player.statLife > clericResourceCost)
 				{
 					player.statLife -= clericResourceCost;
