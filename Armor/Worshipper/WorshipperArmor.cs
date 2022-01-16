@@ -39,8 +39,8 @@ namespace clericclass.Armor.Worshipper
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Ancient Worshipper Hood");
-            Tooltip.SetDefault("12% increased radient damage" +
-                             "\n4% increased cleric critical strike chance");
+            Tooltip.SetDefault("9% increased radiant damage" +
+                             "\n6% increased cleric critical strike chance");
                               
         }
 
@@ -48,8 +48,8 @@ namespace clericclass.Armor.Worshipper
         {
             item.height = 22;
             item.width = 24;
-            item.rare = 1;
-            item.defense = 6;
+            item.rare = 4;
+            item.defense = 7;
         }
 
         public override bool DrawHead() => true;
@@ -57,8 +57,8 @@ namespace clericclass.Armor.Worshipper
         public override void UpdateEquip(Player player)
         {
             var modPlayer = clericmodplayer.ModPlayer(player);
-            modPlayer.clericRadientMult += 0.12f;
-            modPlayer.clericCrit += 4;
+            modPlayer.clericRadientMult += 0.09f;
+            modPlayer.clericCrit += 6;
         }
 
         public override bool IsArmorSet(Item head, Item body, Item legs)
@@ -123,8 +123,8 @@ namespace clericclass.Armor.Worshipper
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Ancient Worshipper Robes");
-            Tooltip.SetDefault("8% increased radient and necrotic damage" +
-                             "\n6% increased cleric critical strike chance");
+            Tooltip.SetDefault("7% increased radiant and necrotic damage" +
+                             "\nHealing gives an additonal 3 health");
 
         }
 
@@ -132,8 +132,8 @@ namespace clericclass.Armor.Worshipper
         {
             item.height = 22;
             item.width = 24;
-            item.rare = 1;
-            item.defense = 11;
+            item.rare = 4;
+            item.defense = 10;
         }
 
         public override void DrawHands(ref bool drawHands, ref bool drawArms)
@@ -145,9 +145,9 @@ namespace clericclass.Armor.Worshipper
         public override void UpdateEquip(Player player)
         {
             var modPlayer = clericmodplayer.ModPlayer(player);
-            modPlayer.clericRadientMult += 0.08f;
-            modPlayer.clericNecroticMult += 0.08f;
-            modPlayer.clericCrit += 6;
+            modPlayer.clericRadientMult += 0.07f;
+            modPlayer.clericNecroticMult += 0.07f;
+            player.GetModPlayer<modplayer>().healBonus += 3;
         }
     }
 
@@ -157,7 +157,7 @@ namespace clericclass.Armor.Worshipper
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Ancient Worshipper Boots");
-            Tooltip.SetDefault("8% increased necrotic damage" +
+            Tooltip.SetDefault("9% increased necrotic damage" +
                              "\n10% increased movement speed");
 
         }
@@ -166,14 +166,14 @@ namespace clericclass.Armor.Worshipper
         {
             item.height = 22;
             item.width = 24;
-            item.rare = 1;
+            item.rare = 4;
             item.defense = 8;
         }
 
         public override void UpdateEquip(Player player)
         {
             var modPlayer = clericmodplayer.ModPlayer(player);
-            modPlayer.clericNecroticMult += 0.08f;
+            modPlayer.clericNecroticMult += 0.09f;
             player.moveSpeed += 0.1f;
         }
     }

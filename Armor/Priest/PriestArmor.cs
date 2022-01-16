@@ -16,9 +16,7 @@ namespace clericclass.Armor.Priest
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Priest's Hood");
-            Tooltip.SetDefault("4% increased radient damage" +
-                             "\n2% increased cleric critical strike chance");
-                              
+            Tooltip.SetDefault("4% increased radiant damage");           
         }
 
         public override void SetDefaults()
@@ -35,7 +33,6 @@ namespace clericclass.Armor.Priest
         {
             var modPlayer = clericmodplayer.ModPlayer(player);
             modPlayer.clericRadientMult += 0.04f;
-            modPlayer.clericCrit += 2;
         }
 
         public override bool IsArmorSet(Item head, Item body, Item legs)
@@ -47,7 +44,7 @@ namespace clericclass.Armor.Priest
         {
             var modPlayer = clericmodplayer.ModPlayer(player);
             player.setBonus = "Healing gives allies a minor blessing" + 
-                            "\nDeal 1 additional radient and necrotic damage";
+                            "\nDeal 1 additional radiant and necrotic damage";
 
             modPlayer.clericNecroticAdd += 1;
             modPlayer.clericRadientAdd += 1;
@@ -62,7 +59,7 @@ namespace clericclass.Armor.Priest
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Priest's Robes");
-            Tooltip.SetDefault("5% increased radient and necrotic damage");
+            Tooltip.SetDefault("3% increased cleric critical strike chance");
 
         }
 
@@ -84,8 +81,7 @@ namespace clericclass.Armor.Priest
         public override void UpdateEquip(Player player)
         {
             var modPlayer = clericmodplayer.ModPlayer(player);
-            modPlayer.clericRadientMult += 0.05f;
-            modPlayer.clericNecroticMult += 0.05f;
+            modPlayer.clericCrit += 4;
         }
     }
 
@@ -95,8 +91,7 @@ namespace clericclass.Armor.Priest
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Priest's Boots");
-            Tooltip.SetDefault("3% increased necrotic damage" +
-                             "\n5% increased movement speed");
+            Tooltip.SetDefault("4% increased necrotic damage");
 
         }
 
@@ -111,8 +106,7 @@ namespace clericclass.Armor.Priest
         public override void UpdateEquip(Player player)
         {
             var modPlayer = clericmodplayer.ModPlayer(player);
-            modPlayer.clericNecroticMult += 0.03f;
-            player.moveSpeed += 0.05f;
+            modPlayer.clericNecroticMult += 0.04f;
         }
     }
 }

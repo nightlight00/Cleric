@@ -18,7 +18,7 @@ namespace clericclass.Armor.Heartbeat
         public override void SetStaticDefaults()
         {
            // DisplayName.SetDefault("Flamesilk Hat");
-            Tooltip.SetDefault("5% increased necrotic damage \n3% increased cleric critical strike chance");
+            Tooltip.SetDefault("4% increased cleric critical strike chance");
                               
         }
 
@@ -33,8 +33,7 @@ namespace clericclass.Armor.Heartbeat
         public override void UpdateEquip(Player player)
         {
             var modPlayer = clericmodplayer.ModPlayer(player);
-            modPlayer.clericNecroticMult += 0.05f;
-            modPlayer.clericCrit += 3;
+            modPlayer.clericCrit += 4;
         }
 
         public override bool IsArmorSet(Item head, Item body, Item legs)
@@ -65,7 +64,8 @@ namespace clericclass.Armor.Heartbeat
         {
             var modPlayer = clericmodplayer.ModPlayer(player);
             player.setBonus = "Double tap down to activate / deactivate 'Heartbreak'" +
-                            "\nWhile in 'Heartbreak', necrotic damage is greatly increased while your life force suffers";
+                            "\nWhile in 'Heartbreak', necrotic damage is greatly increased while your life force suffers" +
+                            "\nSlightly increased life regen while 'Heartbreak' is deactivated";
 
             player.GetModPlayer<modplayer>().heartSetBonus = true;
             if (player.controlDown && player.releaseDown && player.doubleTapCardinalTimer[0] < 15)
@@ -94,11 +94,14 @@ namespace clericclass.Armor.Heartbeat
                         Dust d = Dust.NewDustPerfect(new Vector2(player.Center.X, player.Center.Y+(player.height/2)), 271, speed * 6, Scale: 1.25f);
                         d.noGravity = true;
                     }
-                    if (heartStrength < 0.25f) { heartStrength += 0.01f; }
+                    if (heartStrength < 0.25f) { heartStrength += 0.025f; }
                     timer = 0;
                 }
             }
-              
+            else
+            {
+                player.lifeRegen += 1;
+            } 
         }
         public override void AddRecipes()
         {
@@ -116,8 +119,7 @@ namespace clericclass.Armor.Heartbeat
         public override void SetStaticDefaults()
         {
             //DisplayName.SetDefault("Priest's Robes");
-            Tooltip.SetDefault("7% increased necrotic damage" +
-                             "\nIncreased cleric knockback");
+            Tooltip.SetDefault("5% increased necrotic damage");
         }
 
         public override void SetDefaults()
@@ -136,8 +138,7 @@ namespace clericclass.Armor.Heartbeat
         public override void UpdateEquip(Player player)
         {
             var modPlayer = clericmodplayer.ModPlayer(player);
-            modPlayer.clericNecroticMult += 0.07f;
-            modPlayer.clericKnockback += 0.5f;
+            modPlayer.clericNecroticMult += 0.05f;
         }
         public override void AddRecipes()
         {
@@ -155,7 +156,7 @@ namespace clericclass.Armor.Heartbeat
         public override void SetStaticDefaults()
         {
            // DisplayName.SetDefault("Priest's Boots");
-            Tooltip.SetDefault("6% increased necrotic damage");
+            Tooltip.SetDefault("4% increased necrotic damage");
 
         }
 
@@ -170,7 +171,7 @@ namespace clericclass.Armor.Heartbeat
         public override void UpdateEquip(Player player)
         {
             var modPlayer = clericmodplayer.ModPlayer(player);
-            modPlayer.clericNecroticMult += 0.06f;
+            modPlayer.clericNecroticMult += 0.04f;
         }
         public override void AddRecipes()
         {

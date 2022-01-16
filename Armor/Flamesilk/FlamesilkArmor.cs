@@ -52,7 +52,7 @@ namespace clericclass.Armor.Flamesilk
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Flamesilk Hat");
-            Tooltip.SetDefault("8% increased radient damage");
+            Tooltip.SetDefault("7% increased radiant damage");
                               
         }
 
@@ -69,7 +69,7 @@ namespace clericclass.Armor.Flamesilk
         public override void UpdateEquip(Player player)
         {
             var modPlayer = clericmodplayer.ModPlayer(player);
-            modPlayer.clericRadientMult += 0.08f;
+            modPlayer.clericRadientMult += 0.07f;
         }
 
         public override bool IsArmorSet(Item head, Item body, Item legs)
@@ -80,10 +80,10 @@ namespace clericclass.Armor.Flamesilk
         public override void UpdateArmorSet(Player player)
         {
             var modPlayer = clericmodplayer.ModPlayer(player);
-            player.setBonus = "Radient attacks burn foes with Holy Fire" + 
-                            "\nIncrease healing potency by 2";
+            player.setBonus = "Radient attacks burn foes with Holy Fire \n dev note : rework this later";
+            // rework this into : nearby foes are inflicted with holy fire , healing allies gives them 'vengeful flames' (thorns but holy fire)
 
-            player.GetModPlayer<modplayer>().healBonus += 2;
+           
             player.GetModPlayer<modplayer>().flamesilkSetBonus = true;
 
             if ((player.velocity.X > 4 || player.velocity.X < -4) && player.velocity.Y == 0 && Main.rand.NextBool())
@@ -111,7 +111,7 @@ namespace clericclass.Armor.Flamesilk
         public override void SetStaticDefaults()
         {
             //DisplayName.SetDefault("Priest's Robes");
-            Tooltip.SetDefault("9% increased radient damage" +
+            Tooltip.SetDefault("Healing gives an additional 2 health" +
                              "\nApplied buffs last 2 seconds longer");
         }
 
@@ -131,8 +131,7 @@ namespace clericclass.Armor.Flamesilk
         public override void UpdateEquip(Player player)
         {
             player.GetModPlayer<modplayer>().buffBonus += 2;
-            var modPlayer = clericmodplayer.ModPlayer(player);
-            modPlayer.clericRadientMult += 0.09f;
+            player.GetModPlayer<modplayer>().healBonus += 2;
         }
         public override void AddRecipes()
         {
