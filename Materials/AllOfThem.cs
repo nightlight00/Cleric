@@ -70,4 +70,23 @@ namespace clericclass.Materials
             recipe1.AddRecipe();
         }
     }
+
+    class Runestone : ModItem
+    {
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Glacial Runestone");
+            Tooltip.SetDefault("A mysterious gem that animates ice elementals");
+        }
+
+        public override void SetDefaults()
+        {
+            item.value = 25000;
+            item.width = 24;
+            item.height = 30;
+            item.rare = ItemRarityID.Pink;
+            item.maxStack = 999;
+        }
+
+    }
 }
