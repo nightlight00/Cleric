@@ -115,6 +115,15 @@ namespace clericclass.Armor.Worshipper
                 CombatText.NewText(player.getRect(), Color.LightGoldenrodYellow, "Ra's Blessing Ready!");
             }
         }
+        public override void AddRecipes()
+        {
+            ModRecipe recipe = new ModRecipe(mod);
+            recipe.AddIngredient(ItemID.AncientCloth, 6);
+            recipe.AddIngredient(ItemID.Silk, 8);
+            recipe.AddTile(TileID.Anvils);
+            recipe.SetResult(this);
+            recipe.AddRecipe();
+        }
     }
 
     [AutoloadEquip(EquipType.Body)]
@@ -149,6 +158,16 @@ namespace clericclass.Armor.Worshipper
             modPlayer.clericNecroticMult += 0.07f;
             player.GetModPlayer<modplayer>().healBonus += 3;
         }
+
+        public override void AddRecipes()
+        {
+            ModRecipe recipe = new ModRecipe(mod);
+            recipe.AddIngredient(ItemID.AncientCloth, 8);
+            recipe.AddIngredient(ItemID.Silk, 10);
+            recipe.AddTile(TileID.Anvils);
+            recipe.SetResult(this);
+            recipe.AddRecipe();
+        }
     }
 
     [AutoloadEquip(EquipType.Legs)]
@@ -175,6 +194,15 @@ namespace clericclass.Armor.Worshipper
             var modPlayer = clericmodplayer.ModPlayer(player);
             modPlayer.clericNecroticMult += 0.09f;
             player.moveSpeed += 0.1f;
+        }
+        public override void AddRecipes()
+        {
+            ModRecipe recipe = new ModRecipe(mod);
+            recipe.AddIngredient(ItemID.AncientCloth, 6);
+            recipe.AddIngredient(ItemID.Silk, 8);
+            recipe.AddTile(TileID.Anvils);
+            recipe.SetResult(this);
+            recipe.AddRecipe();
         }
     }
 }

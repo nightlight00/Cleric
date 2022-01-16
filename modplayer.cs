@@ -69,6 +69,7 @@ namespace clericclass.ClericBase
     {
         // buffs
         public bool blessingMinor = false;
+        public bool flameGuard = false;
 
         // debuffs
         public bool holyFire = false;
@@ -96,6 +97,7 @@ namespace clericclass.ClericBase
         public override void ResetEffects()
         {
             blessingMinor = false;
+            flameGuard = false;
 
             holyFire = false;
 
@@ -115,6 +117,41 @@ namespace clericclass.ClericBase
 
             currentWeaponEvil = false;
             charmEquppied = false;
+        }
+
+        public override void OnHitByNPC(NPC npc, int damage, bool crit)
+        {
+            if (flameGuard)
+            {
+                npc.AddBuff(ModContent.BuffType<Armor.Flamesilk.HolyFire>(), 300);
+                npc.life -= 40;
+                CombatText.NewText(npc.getRect(), Color.OrangeRed, 40);
+                Main.PlaySound(SoundID.Item14, npc.position);
+                for (var i = 0; i < 20; i++)
+                {
+                    Dust d = Dust.NewDustDirect(npc.position, npc.width, npc.height, 133, Main.rand.NextFloat(-5, 5), -4, Scale: 1.25f);
+                    d.fadeIn = d.scale + 0.5f;
+                }
+                if (npc.life <= 0) { npc.checkDead(); }
+            }
+        }
+
+        public override void OnHitByProjectile(Projectile proj, int damage, bool crit)
+        {
+            if (flameGuard)
+            {
+                var npc = Main.npc[proj.owner];
+                npc.AddBuff(ModContent.BuffType<Armor.Flamesilk.HolyFire>(), 300);
+                npc.life -= 40;
+                CombatText.NewText(npc.getRect(), Color.Red, 40);
+                Main.PlaySound(SoundID.Item14, npc.position);
+                for (var i = 0; i < 20; i++)
+                {
+                    Dust d = Dust.NewDustDirect(npc.position, npc.width, npc.height, 133, Main.rand.NextFloat(-5, 5), -4, Scale: 1.25f);
+                    d.fadeIn = d.scale + 0.5f;
+                }
+                if (npc.life <= 0) { npc.checkDead(); }
+            }
         }
 
         public override void UpdateBadLifeRegen()

@@ -103,6 +103,14 @@ namespace clericclass.Armor.Heartbeat
                 player.lifeRegen += 1;
             } 
         }
+        public override void ArmorSetShadows(Player player)
+        {
+            if (player.GetModPlayer<modplayer>().heartSetBonus)
+            {
+                player.armorEffectDrawOutlines = true;
+            }
+        }
+
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);

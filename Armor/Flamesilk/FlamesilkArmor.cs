@@ -38,9 +38,64 @@ namespace clericclass.Armor.Flamesilk
             npc.GetGlobalNPC<modglobalnpc>().holyfire = true;
             if (Main.rand.NextBool(5))
             {
-                Dust dst = Dust.NewDustDirect(npc.position, npc.width, npc.height, 133, Main.rand.NextFloat(-1,1), -4, newColor: Color.Yellow);
+                Dust dst = Dust.NewDustDirect(npc.position, npc.width, npc.height, 133, Main.rand.NextFloat(-1, 1), -4, newColor: Color.Yellow);
                 dst.scale = Main.rand.NextFloat(1.2f, 1.5f);
                 dst.fadeIn = dst.scale * 1.3f;
+            }
+        }
+    }
+
+    class Flameguard : ModBuff
+    {
+        public override void SetDefaults()
+        {
+            DisplayName.SetDefault("Flame Guard");
+            Description.SetDefault("Taking hits counters with holy fire");
+            Main.buffNoTimeDisplay[Type] = true;
+            Main.debuff[Type] = true;
+            longerExpertDebuff = true;
+        }
+
+        public override void Update(Player player, ref int buffIndex)
+        {
+            player.GetModPlayer<modplayer>().flameGuard = true;
+        }
+    }
+
+    class HolyFireAura : ModProjectile
+    {
+        public override string Texture => "Terraria/Projectile_" + ProjectileID.Fireball;
+        public override void SetDefaults()
+        {
+            projectile.width = projectile.height = 120;
+            projectile.friendly = true;
+            projectile.timeLeft = 2;
+            projectile.penetrate = -1;
+            projectile.usesLocalNPCImmunity = true;
+            projectile.localNPCHitCooldown = -1;
+            projectile.localNPCHitCooldown = 60;
+            projectile.alpha = 255;
+        }
+
+        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        {
+            target.AddBuff(ModContent.BuffType<HolyFire>(), 240);
+        }
+
+        public override void AI()
+        {
+            var player = Main.player[projectile.owner];
+            projectile.Center = player.Center;
+            projectile.timeLeft = 2;
+            if (!player.GetModPlayer<modplayer>().flamesilkSetBonus || player.dead)
+            {
+                projectile.Kill();
+            }
+            for (int i = 0; i < 30; i++)
+            {
+                Vector2 speed = Main.rand.NextVector2CircularEdge(1f, 1f);
+                Dust d = Dust.NewDustPerfect(player.Center + (speed * 60), 6, speed * 0);
+                d.noGravity = true;
             }
         }
     }
@@ -80,11 +135,15 @@ namespace clericclass.Armor.Flamesilk
         public override void UpdateArmorSet(Player player)
         {
             var modPlayer = clericmodplayer.ModPlayer(player);
-            player.setBonus = "Radient attacks burn foes with Holy Fire \n dev note : rework this later";
+            player.setBonus = "Nearby foes are set aflame with Holy Fire \nHealing allies gives them vengeful flames";
             // rework this into : nearby foes are inflicted with holy fire , healing allies gives them 'vengeful flames' (thorns but holy fire)
-
-           
+  
             player.GetModPlayer<modplayer>().flamesilkSetBonus = true;
+
+            if (player.ownedProjectileCounts[ModContent.ProjectileType<HolyFireAura>()] == 0)
+            {
+                Projectile.NewProjectile(player.Center, new Vector2(0, -3), ModContent.ProjectileType<HolyFireAura>(), 10, 0, player.whoAmI);
+            }
 
             if ((player.velocity.X > 4 || player.velocity.X < -4) && player.velocity.Y == 0 && Main.rand.NextBool())
             {
@@ -95,6 +154,7 @@ namespace clericclass.Armor.Flamesilk
                 dst.noGravity = true;
             }
         }
+        
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);

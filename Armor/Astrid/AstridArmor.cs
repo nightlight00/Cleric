@@ -58,11 +58,19 @@ namespace clericclass.Armor.Astrid
         public override void UpdateArmorSet(Player player)
         {
             var modPlayer = clericmodplayer.ModPlayer(player);
-            player.setBonus = "Nearby allies gain Ymir's Blessing";
-          /*  player.setBonus = "Double tap down to activate 'Niflheim'" + 
-                            "\nWhile 'Niflheim' is active, a storm of snow bellows from within you" +
-                            "\nThe snow damages enemies and heals allies, but comes at a blood cost";
-          */
+            player.setBonus = "Summons in ice elemental to fight for you \ndev note : change this set bonus later";
+            /*  player.setBonus = "Double tap down to activate 'Niflheim'" + 
+                              "\nWhile 'Niflheim' is active, a storm of snow bellows from within you" +
+                              "\nThe snow damages enemies and heals allies, but comes at a blood cost";
+            */
+
+            if (player.ownedProjectileCounts[ModContent.ProjectileType<IceElem>()] == 0)
+            {
+                Projectile.NewProjectile(player.Center, new Vector2(0, -3), ModContent.ProjectileType<IceElem>(), 0, 0, player.whoAmI);
+            }
+
+            player.GetModPlayer<modplayer>().astridSetElemental = true;
+            /*
             for (int i = 0; i < 30; i++)
             {
                 Vector2 speed = Main.rand.NextVector2CircularEdge(1f, 1f);
@@ -74,14 +82,23 @@ namespace clericclass.Armor.Astrid
 
                 player.GetModPlayer<modplayer>().healBonus += 2;
            // player.GetModPlayer<modplayer>().flamesilkSetBonus = true;
+            */
         }
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<Materials.FlameSilk>(), 8);
-            recipe.AddTile(TileID.Loom);
+            recipe.AddIngredient(ItemID.TitaniumBar, 8);
+            recipe.AddIngredient(ModContent.ItemType<Materials.Runestone>());
+            recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this);
             recipe.AddRecipe();
+
+            ModRecipe recipe1 = new ModRecipe(mod);
+            recipe1.AddIngredient(ItemID.AdamantiteBar, 8);
+            recipe1.AddIngredient(ModContent.ItemType<Materials.Runestone>());
+            recipe1.AddTile(TileID.MythrilAnvil);
+            recipe1.SetResult(this);
+            recipe1.AddRecipe();
         }
     }
 
@@ -129,7 +146,6 @@ namespace clericclass.Armor.Astrid
                               "\nWhile 'Niflheim' is active, a storm of snow bellows from within you" +
                               "\nThe snow damages enemies and heals allies, but comes at a blood cost";
             */
-
             
             if (player.ownedProjectileCounts[ModContent.ProjectileType<IceElem>()] == 0)
             {
@@ -141,10 +157,18 @@ namespace clericclass.Armor.Astrid
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<Materials.FlameSilk>(), 8);
-            recipe.AddTile(TileID.Loom);
+            recipe.AddIngredient(ItemID.TitaniumBar, 8);
+            recipe.AddIngredient(ModContent.ItemType<Materials.Runestone>());
+            recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this);
             recipe.AddRecipe();
+
+            ModRecipe recipe1 = new ModRecipe(mod);
+            recipe1.AddIngredient(ItemID.AdamantiteBar, 8);
+            recipe1.AddIngredient(ModContent.ItemType<Materials.Runestone>());
+            recipe1.AddTile(TileID.MythrilAnvil);
+            recipe1.SetResult(this);
+            recipe1.AddRecipe();
         }
     }
 
@@ -180,10 +204,18 @@ namespace clericclass.Armor.Astrid
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<Materials.FlameSilk>(), 12);
-            recipe.AddTile(TileID.Loom);
+            recipe.AddIngredient(ItemID.TitaniumBar, 12);
+            recipe.AddIngredient(ModContent.ItemType<Materials.Runestone>());
+            recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this);
             recipe.AddRecipe();
+
+            ModRecipe recipe1 = new ModRecipe(mod);
+            recipe1.AddIngredient(ItemID.AdamantiteBar, 12);
+            recipe1.AddIngredient(ModContent.ItemType<Materials.Runestone>());
+            recipe1.AddTile(TileID.MythrilAnvil);
+            recipe1.SetResult(this);
+            recipe1.AddRecipe();
         }
     }
 
@@ -212,13 +244,22 @@ namespace clericclass.Armor.Astrid
             modPlayer.clericCrit += 8;
             player.moveSpeed += 0.12f;
         }
+
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<Materials.FlameSilk>(), 10);
-            recipe.AddTile(TileID.Loom);
+            recipe.AddIngredient(ItemID.TitaniumBar, 10);
+            recipe.AddIngredient(ModContent.ItemType<Materials.Runestone>());
+            recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this);
             recipe.AddRecipe();
+
+            ModRecipe recipe1 = new ModRecipe(mod);
+            recipe1.AddIngredient(ItemID.AdamantiteBar, 10);
+            recipe1.AddIngredient(ModContent.ItemType<Materials.Runestone>());
+            recipe1.AddTile(TileID.MythrilAnvil);
+            recipe1.SetResult(this);
+            recipe1.AddRecipe();
         }
     }
 }
