@@ -29,7 +29,7 @@ namespace clericclass.Weapons.PreBoss.Basic
 			item.knockBack = 0.5f;
 			item.value = 10000;
 			item.rare = 0;
-			item.UseSound = SoundID.Item1;
+			item.UseSound = SoundID.DD2_SkyDragonsFurySwing;
 			item.shoot = ModContent.ProjectileType<GraniteProj>();
 			item.noMelee = true;
 			item.rare = 2;

@@ -25,4 +25,22 @@ namespace clericclass.Buffs.Charms
             player.statDefense += 2;
         }
     }
+
+    class SummerSpirit : ModBuff
+    {
+        public override void SetDefaults()
+        {
+            DisplayName.SetDefault("Summer Spirit");
+            Description.SetDefault("Feels like a pleasent summer day \nIncreased life regen, 10% increased movement speed, and 3 additional defense \nGetting healed grants extra health");
+            Main.debuff[Type] = false;
+        }
+
+        public override void Update(Player player, ref int buffIndex)
+        {
+            player.GetModPlayer<modplayer>().summerBuff = true;
+            player.lifeRegen += 2;
+            player.moveSpeed += 0.1f;
+            player.statDefense += 3;
+        }
+    }
 }

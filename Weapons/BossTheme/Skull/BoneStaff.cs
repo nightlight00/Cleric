@@ -29,7 +29,7 @@ namespace clericclass.Weapons.BossTheme.Skull
 			item.knockBack = 2.3f;
 			item.value = 10000;
 			item.rare = 3;
-			item.UseSound = SoundID.Item1;
+			item.UseSound = SoundID.Item69;
 			item.shoot = ModContent.ProjectileType<Tombstone>();
 			item.noMelee = true;
 
@@ -140,6 +140,7 @@ namespace clericclass.Weapons.BossTheme.Skull
 				shootVel.Normalize();
 				shootVel *= 6;
 				var player = Main.player[projectile.owner];
+				Main.PlaySound(SoundID.NPCHit2, projectile.position);
 				Projectile proj = Projectile.NewProjectileDirect(new Vector2(projectile.Center.X, projectile.position.Y-4), shootVel, ModContent.ProjectileType<TombSkull>(), projectile.damage, projectile.knockBack, player.whoAmI);
 				timer = 0;
             }
@@ -147,9 +148,10 @@ namespace clericclass.Weapons.BossTheme.Skull
 
         public override void Kill(int timeLeft)
         {
-            for (int i = 0; i < 10; i++)
+			Main.PlaySound(SoundID.NPCDeath2, projectile.position);
+			for (int i = 0; i < 20; i++)
             {
-				Dust dst = Dust.NewDustDirect(projectile.position, projectile.width, projectile.height, 26, Main.rand.NextFloat(-3, 3), -2);
+				Dust dst = Dust.NewDustDirect(projectile.position, projectile.width, projectile.height, 26, Main.rand.NextFloat(-2, 2), -1-Main.rand.NextFloat());
 				dst.scale = Main.rand.NextFloat(1, 1.4f);
             }
         }
@@ -179,6 +181,15 @@ namespace clericclass.Weapons.BossTheme.Skull
 				if (steal > 6) { steal = 6; }
 				var player = Main.player[projectile.owner];
 				Heal(player, player, "stolen", steal, true);
+            }
+        }
+
+        public override void Kill(int timeLeft)
+        {
+           for (var i = 0; i < 8; i++)
+            {
+				Dust d = Dust.NewDustDirect(projectile.position, projectile.width, projectile.height, 5);
+				d.scale = Main.rand.NextFloat(0.8f, 1.1f);
             }
         }
 

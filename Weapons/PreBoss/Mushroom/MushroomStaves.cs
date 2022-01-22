@@ -29,7 +29,7 @@ namespace clericclass.Weapons.PreBoss.Mushroom
 			item.knockBack = 2.3f;
 			item.value = 10000;
 			item.rare = 0;
-			item.UseSound = SoundID.Item1;
+			item.UseSound = SoundID.Item43;
 			item.shoot = ModContent.ProjectileType<MushroomStaffProjectile>();
 			item.noMelee = true;
 
@@ -80,7 +80,7 @@ namespace clericclass.Weapons.PreBoss.Mushroom
 			item.knockBack = 0;
 			item.value = 10000;
 			item.rare = 0;
-			item.UseSound = SoundID.Item1;
+			item.UseSound = SoundID.Item43;
 			item.shoot = ModContent.ProjectileType<MushroomStaffProjectile>();
 			item.noMelee = true;
 

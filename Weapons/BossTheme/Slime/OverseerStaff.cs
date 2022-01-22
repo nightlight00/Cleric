@@ -29,7 +29,7 @@ namespace clericclass.Weapons.BossTheme.Slime
 			item.knockBack = 2.3f;
 			item.value = 10000;
 			item.rare = 1;
-			item.UseSound = SoundID.Item1;
+			item.UseSound = SoundID.Item69;
 			item.shoot = ModContent.ProjectileType<SlimeConstruct>();
 			item.noMelee = true;
 
@@ -119,6 +119,7 @@ namespace clericclass.Weapons.BossTheme.Slime
 			{
 				projectile.velocity = new Vector2(projectile.velocity.X + Main.rand.NextFloat(-2, 2), -5);
 			}
+			Main.PlaySound(SoundID.NPCHit1, projectile.position);
 			for (int i = 0; i < 8; i++)
             {
 				Dust dst = Dust.NewDustDirect(projectile.position, projectile.width, projectile.height, 4, Main.rand.NextFloat(-2, 2), -2);
@@ -132,6 +133,7 @@ namespace clericclass.Weapons.BossTheme.Slime
 
         public override void Kill(int timeLeft)
         {
+			Main.PlaySound(SoundID.NPCDeath1, projectile.position);
 			for (int i = 0; i < 20; i++)
 			{
 				Dust dst = Dust.NewDustDirect(projectile.position, projectile.width, projectile.height, 4, Main.rand.NextFloat(-2, 2), -2);

@@ -27,7 +27,7 @@ namespace clericclass.Weapons.Hell
 			item.knockBack = 1.8f;
 			item.value = 10000;
 			item.rare = 3;
-			item.UseSound = SoundID.Item1;
+			item.UseSound = SoundID.Item88;
 			item.shoot = ModContent.ProjectileType<DevilPitchfork2>();
 			item.noMelee = true;
 
@@ -101,18 +101,19 @@ namespace clericclass.Weapons.Hell
 		{
 			if (projectile.ai[0] == 1)
             {
+				projectile.frame = 1;
 				projectile.timeLeft -= 1;
 				projectile.alpha = 100;
 				Lighting.AddLight(projectile.Center, new Vector3(1.23f, .26f, 2.20f));
 				Dust d = Dust.NewDustDirect(projectile.position, projectile.width, projectile.height / 2, 27);
             }
 			else {
+				projectile.frame = 0;
 				projectile.alpha += 5;
 				Lighting.AddLight(projectile.Center, new Vector3(2.55f, 1.23f, .15f));
 				Dust d = Dust.NewDustDirect(projectile.position, projectile.width, projectile.height / 2, 6);
 				d.scale += 0.25f;
 			}
-			projectile.frame = (int)projectile.ai[0];
 		}
 
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
@@ -127,6 +128,7 @@ namespace clericclass.Weapons.Hell
 				}
 				return;
 			}
+			Main.PlaySound(SoundID.Item100, projectile.position);
 			for (int i = 0; i < 15; i++)
 			{
 				Dust dst = Dust.NewDustDirect(target.position, target.width, target.height, 6, Main.rand.NextFloat(-4, 4), -5);

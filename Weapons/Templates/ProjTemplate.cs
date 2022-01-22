@@ -65,14 +65,18 @@ namespace clericclass.Weapons.Templates
             }
             if (amount != 0)
             {
-               // ApplyBuffs(owner, target);
-
+                // ApplyBuffs(owner, target);
+                if (owner.GetModPlayer<modplayer>().summerBuff) { amount++; }
                 target.statLife += amount;
                 CombatText.NewText(target.getRect(), Color.Lime, amount + " health " + style);
             }
             if (owner.GetModPlayer<modplayer>().priestSetBonus)
             {
                 target.AddBuff(ModContent.BuffType<Buffs.Blessings.BlessingMinor>(), (12 + (amount*2)) * 60);
+            }
+            if (owner.GetModPlayer<modplayer>().flamesilkSetBonus)
+            {
+                target.AddBuff(ModContent.BuffType<Armor.Flamesilk.Flameguard>(), (10 + (amount * 2)) * 60);
             }
             AfterHeal();
         }
@@ -99,7 +103,8 @@ namespace clericclass.Weapons.Templates
                 {
                     ApplyBuffs(owner, target);
 
-                    target.statLife += amount;
+                    if (owner.GetModPlayer<modplayer>().summerBuff) { amount++; }
+
                     CombatText.NewText(target.getRect(), Color.Lime, amount + " health " + style);
                     if (destroy)
                     {
@@ -110,6 +115,10 @@ namespace clericclass.Weapons.Templates
                 {
                     target.AddBuff(ModContent.BuffType<Buffs.Blessings.BlessingMinor>(), (12 + (amount * 2)) * 60);
                 }
+                if (owner.GetModPlayer<modplayer>().flamesilkSetBonus)
+                {
+                    target.AddBuff(ModContent.BuffType<Armor.Flamesilk.Flameguard>(), (10 + (amount * 2)) * 60);
+                }
             }
         }
 
@@ -119,9 +128,18 @@ namespace clericclass.Weapons.Templates
             if (owner.GetModPlayer<modplayer>().healHappy) { target.AddBuff(BuffID.Sunflower, (8 + buffBonus) * 60); }
             if (owner.GetModPlayer<modplayer>().healGourd) { target.AddBuff(ModContent.BuffType<Buffs.Charms.GourdDefense>(), (8 + buffBonus) * 60); }
             if (owner.GetModPlayer<modplayer>().healCamp) { target.AddBuff(BuffID.Campfire, (8 + buffBonus) * 60); }
+            if (owner.GetModPlayer<modplayer>().healSummer) { target.AddBuff(ModContent.BuffType<Buffs.Charms.SummerSpirit>(), (7 + buffBonus) * 60); }
 
             // armor bonuses
             if (owner.GetModPlayer<modplayer>().worshipSetBonusEffect) { target.AddBuff(ModContent.BuffType<Armor.Worshipper.WorshipBuff>(), (10 + buffBonus) * 60); }
+        }
+
+        public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
+        {
+            if (Main.rand.Next(99) <= clericmodplayer.ModPlayer(Main.player[projectile.owner]).clericCrit)
+            {
+                crit = true;
+            }
         }
 
         public virtual bool CheckKilled(NPC target, int damage, bool crit)
@@ -131,16 +149,6 @@ namespace clericclass.Weapons.Templates
                 return true;
             }
             return false;
-        }
-
-        public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
-        {
-            if (Main.player[projectile.owner].GetModPlayer<modplayer>().flamesilkSetBonus && !Main.player[projectile.owner].GetModPlayer<modplayer>().currentWeaponEvil)
-            {
-                int time = 15;
-                if (crit) { time = 22; }
-                target.AddBuff(ModContent.BuffType<Armor.Flamesilk.HolyFire>(), time * 60);
-            }
         }
 
         public virtual void SafeSetDefaults()

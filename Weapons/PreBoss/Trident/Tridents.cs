@@ -13,7 +13,7 @@ namespace clericclass.Weapons.PreBoss.Trident
 		{
 			DisplayName.SetDefault("Gold Trident");
 			Tooltip.SetDefault("Conjures a trident to rise from the ground"
-					       + "\nStruck foes create a restorative bubble");
+					       + "\nStruck foes create a restorative bubble \nIf not collected in time, the bubble will transform into a less potent healing wave");
 		}
 
 		public override void SafeSetDefaults()
@@ -26,7 +26,7 @@ namespace clericclass.Weapons.PreBoss.Trident
 			item.knockBack = 1.8f;
 			item.value = 10000;
 			item.rare = 0;
-			item.UseSound = SoundID.Item1;
+			item.UseSound = SoundID.Item43;
 			item.shoot = ModContent.ProjectileType<GoldTridentProj>();
 			item.noMelee = true;
 
@@ -59,7 +59,7 @@ namespace clericclass.Weapons.PreBoss.Trident
 		{
 			DisplayName.SetDefault("Platinum Trident");
 			Tooltip.SetDefault("Conjures a trident to rise from the ground"
-						   + "\nStruck foes create a restorative bubble");
+						   + "\nStruck foes create a restorative bubble \nIf not collected in time, the bubble will transform into a less potent healing wave");
 		}
 
 		public override void SafeSetDefaults()
@@ -72,7 +72,7 @@ namespace clericclass.Weapons.PreBoss.Trident
 			item.knockBack = 1.8f;
 			item.value = 10000;
 			item.rare = 0;
-			item.UseSound = SoundID.Item1;
+			item.UseSound = SoundID.Item43;
 			item.shoot = ModContent.ProjectileType<PlatinumTridentProj>();
 			item.noMelee = true;
 
@@ -116,7 +116,7 @@ namespace clericclass.Weapons.PreBoss.Trident
         public override void AI()
         {
 			projectile.velocity *= 0.94f;
-			HealCollision(Main.player[projectile.owner], Main.LocalPlayer, "restored", 1, false, 45, true);
+			HealCollision(Main.player[projectile.owner], Main.LocalPlayer, "restored", 2, false, 45, true);
         }
 
         public override void Kill(int timeLeft)
@@ -125,6 +125,24 @@ namespace clericclass.Weapons.PreBoss.Trident
             {
 				Dust dst = Dust.NewDustDirect(projectile.position, projectile.width, projectile.height, 33, Main.rand.NextFloat(-3, 3), Main.rand.NextFloat(-3, 3));
             }
+			Vector2 shootVel = Main.player[projectile.owner].Center - projectile.Center;
+			shootVel.Normalize();
+			shootVel *= 6;
+			Projectile.NewProjectile(projectile.position, shootVel, ModContent.ProjectileType<BubbleBeam>(), 0, 0, Main.player[projectile.owner].whoAmI, Main.player[projectile.owner].whoAmI, 1);
+        }
+    }
+
+	class BubbleBeam : Lifesteals.LifeStealBase
+    {
+		public override string Texture => "clericclass/Weapons/PreBoss/Trident/Bubble";
+
+        public override void SetDefaults()
+        {
+			projectile.height = projectile.width = 4;
+			projectile.friendly = true;
+			projectile.timeLeft = 60;
+			projectile.tileCollide = false;
+			projectile.alpha = 255;
         }
     }
 

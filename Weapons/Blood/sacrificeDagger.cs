@@ -21,15 +21,15 @@ namespace clericclass.Weapons.Blood
         }
         public override void SafeSetDefaults()
 		{
-			item.damage = 25;
+			item.damage = 17;
 			item.width = 30;
 			item.height = 34;
 			item.useTime = item.useAnimation = 30;
 			item.useStyle = ItemUseStyleID.SwingThrow;
 			item.knockBack = 2.3f;
 			item.value = 10000;
-			item.rare = 0;
-			item.UseSound = SoundID.Item1;
+			item.rare = 1;
+			item.UseSound = SoundID.NPCDeath21;
 			item.shoot = ModContent.ProjectileType<BloodDrop>();
 			item.shootSpeed = 9;
 			item.noMelee = true;
