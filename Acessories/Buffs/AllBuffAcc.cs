@@ -131,4 +131,47 @@ namespace clericclass.Acessories.Buffs
             recipe.AddRecipe();
         }
     }
+
+    class SummerMedallion : ModItem
+    {
+        public override void SetStaticDefaults()
+        {
+          //  DisplayName.SetDefault("Campfire Memento");
+            Tooltip.SetDefault("Healing allies empowers them with summer warmth!" +
+                             "\nGrants increased life regen, movement speed, and defense" +
+                             "\nAllies with 'Summer Spirit' gain additional health when healed");
+        }
+
+        public override void SetDefaults()
+        {
+            item.accessory = true;
+            item.width = item.height = 34;
+            item.rare = 2;
+        }
+        public override void UpdateEquip(Player player)
+        {
+            player.GetModPlayer<modplayer>().healSummer = true;
+            player.GetModPlayer<modplayer>().charmEquppied = true;
+        }
+
+        public override bool CanEquipAccessory(Player player, int slot)
+        {
+            if (player.GetModPlayer<modplayer>().charmEquppied)
+            {
+                return false;
+            }
+            return true;
+        }
+
+        public override void AddRecipes()
+        {
+            ModRecipe recipe = new ModRecipe(mod);
+            recipe.AddIngredient(ModContent.ItemType<SunflowerCharm>());
+            recipe.AddIngredient(ModContent.ItemType<PumpkinCharm>());
+            recipe.AddIngredient(ModContent.ItemType<CampfireCharm>());
+            recipe.AddTile(TileID.TinkerersWorkbench);
+            recipe.SetResult(this);
+            recipe.AddRecipe();
+        }
+    }
 }

@@ -173,7 +173,7 @@ namespace clericclass.Armor.Astrid
 					projectile.velocity *= (float)Math.Pow(0.9, 40.0 / inertia);
 				}
 			}
-			projectile.rotation = projectile.velocity.X * 0.13f;
+			projectile.rotation = projectile.velocity.X * 0.09f;
 			if (projectile.velocity.X > 0f)
 			{
 				projectile.spriteDirection = projectile.direction = -1;

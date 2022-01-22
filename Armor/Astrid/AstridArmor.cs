@@ -149,6 +149,7 @@ namespace clericclass.Armor.Astrid
             
             if (player.ownedProjectileCounts[ModContent.ProjectileType<IceElem>()] == 0)
             {
+                Main.PlaySound(SoundID.Item46, player.position);
                 Projectile.NewProjectile(player.Center, new Vector2(0, -3), ModContent.ProjectileType<IceElem>(), 0, 0, player.whoAmI);
             }
 

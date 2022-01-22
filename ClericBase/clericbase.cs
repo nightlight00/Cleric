@@ -51,6 +51,8 @@ namespace clericclass.ClericBase
 		public int clericResourceCost = 0;
 		public bool clericEvil = false;
 
+		int resourceCostTrue;
+
 		// Custom items should override this to set their defaults
 		public virtual void SafeSetDefaults()
 		{
@@ -84,7 +86,7 @@ namespace clericclass.ClericBase
 				flat += clericmodplayer.ModPlayer(player).clericNecroticAdd;
 				mult *= clericmodplayer.ModPlayer(player).clericNecroticMult + ((clericmodplayer.ModPlayer(player).clericRadientMult - 1) * 0.25f);
 
-				//clericResourceCost -= player.GetModPlayer<modplayer>().bloodCost;
+				resourceCostTrue = (int)Math.Round((clericResourceCost - player.GetModPlayer<modplayer>().bloodCost) * (1 - player.GetModPlayer<modplayer>().bloodCostMult));
 			}
 		}
 		
@@ -142,10 +144,12 @@ namespace clericclass.ClericBase
 			{
 				if (clericEvil)
 				{
-					if (clericResourceCost <= 0) { clericResourceCost = 1; }
 					string cost = "drops";
-					if (clericResourceCost==1) { cost = "drop"; }
-					tooltips.Add(new TooltipLine(mod, "Cleric Resource Cost", $"Drains {clericResourceCost} blood " + cost));
+					if (resourceCostTrue <= 1) { 
+						cost = "drop";
+						resourceCostTrue = 1;
+					}
+					tooltips.Add(new TooltipLine(mod, "Cleric Resource Cost", $"Drains {resourceCostTrue} blood " + cost));
 				}
 			}
 		}
@@ -164,12 +168,12 @@ namespace clericclass.ClericBase
 
 			if (clericEvil)
 			{
-				if (clericResourceCost <= 0) { return true; }
-				if (player.statLife > clericResourceCost)
+				if (resourceCostTrue <= 0) { return true; }
+				if (player.statLife > resourceCostTrue)
 				{
-					player.statLife -= clericResourceCost;
-					CombatText.NewText(player.getRect(), Color.Red, clericResourceCost, true);
-					player.AddBuff(ModContent.BuffType<Buffs.AnguishedSoul>(), (item.useTime / 3 + clericResourceCost) * 45, false);
+					player.statLife -= resourceCostTrue;
+					CombatText.NewText(player.getRect(), Color.Red, resourceCostTrue, true);
+					player.AddBuff(ModContent.BuffType<Buffs.AnguishedSoul>(), (item.useTime / 3 + resourceCostTrue) * 45, false);
 					return true;
 				}
 			}
