@@ -16,8 +16,8 @@ namespace clericclass.Armor.Flamesilk
         public override void SetDefaults()
         {
             DisplayName.SetDefault("Holy Fire");
-            Description.SetDefault("noone likes a cheater");
-            Main.buffNoTimeDisplay[Type] = true;
+            Description.SetDefault("Burns with wrath from above");
+            Main.buffNoTimeDisplay[Type] = false;
             Main.debuff[Type] = true;
             longerExpertDebuff = true;
         }
@@ -51,9 +51,8 @@ namespace clericclass.Armor.Flamesilk
         {
             DisplayName.SetDefault("Flame Guard");
             Description.SetDefault("Taking hits counters with holy fire");
-            Main.buffNoTimeDisplay[Type] = true;
-            Main.debuff[Type] = true;
-            longerExpertDebuff = true;
+            Main.buffNoTimeDisplay[Type] = false;
+            Main.debuff[Type] = false;
         }
 
         public override void Update(Player player, ref int buffIndex)
@@ -135,10 +134,11 @@ namespace clericclass.Armor.Flamesilk
         public override void UpdateArmorSet(Player player)
         {
             var modPlayer = clericmodplayer.ModPlayer(player);
-            player.setBonus = "Nearby foes are set aflame with Holy Fire \nHealing allies gives them vengeful flames";
+            player.setBonus = "Healing gives an additional 1 health \nNearby foes are set aflame with Holy Fire \nHealing allies gives them vengeful flames";
             // rework this into : nearby foes are inflicted with holy fire , healing allies gives them 'vengeful flames' (thorns but holy fire)
   
             player.GetModPlayer<modplayer>().flamesilkSetBonus = true;
+            player.GetModPlayer<modplayer>().healBonus += 1;
 
             if (player.ownedProjectileCounts[ModContent.ProjectileType<HolyFireAura>()] == 0)
             {

@@ -16,10 +16,27 @@ namespace clericclass.Weapons.Lifesteals
 
 		public override bool CanDamage() => false;
 
+		public virtual void CreateDust()
+        {
+
+        }
+
 		public override void AI()
 		{
-
+			CreateDust();
 			int num492 = (int)projectile.ai[0];
+			if (projectile.ai[0] == -1)
+			{
+				for (int k = 0; k < 200; k++)
+				{
+					Player player = Main.player[k];
+					if ((player.statLife < Main.player[num492].statLife) && !player.dead && player.active && player.statLife > 0)
+					{
+						num492 = player.whoAmI;
+					}
+				}
+			}
+
 			float num493 = 4f;
 			Vector2 vector39 = new Vector2(projectile.position.X + (float)projectile.width * 0.5f, projectile.position.Y + (float)projectile.height * 0.5f);
 			float num494 = Main.player[num492].Center.X - vector39.X;
@@ -35,10 +52,6 @@ namespace clericclass.Weapons.Lifesteals
 					// add cleric bonuses
 					var modPlayer = clericmodplayer.ModPlayer(player);
 					num497 += healer.GetModPlayer<modplayer>().healBonus / 2;
-					if (healer.GetModPlayer<modplayer>().harvestSetBonus && Main.rand.NextBool(10))
-                    {
-						num497 *= 2;
-                    }
 
 					num497 = (int)Math.Round((double)num497);
 					Main.player[num492].HealEffect(num497, false);
@@ -48,6 +61,17 @@ namespace clericclass.Weapons.Lifesteals
 						Main.player[num492].statLife = Main.player[num492].statLifeMax2;
 					}
 					NetMessage.SendData(66, -1, -1, null, num492, (float)num497, 0f, 0f, 0, 0, 0);
+
+					if (projectile.type == ModContent.ProjectileType<Fragment.LightEnergy>())
+                    {
+						int mana = (int)((num497 + (healer.GetModPlayer<modplayer>().healBonus * .5f) + (healer.GetModPlayer<modplayer>().buffBonus * .33f)) * 1.5f);
+						Main.player[num492].statMana += mana;
+						if (Main.player[num492].statMana > Main.player[num492].statManaMax2)
+                        {
+							Main.player[num492].statMana = Main.player[num492].statManaMax2;
+						}
+						Main.player[num492].ManaEffect((int)(mana));
+					}
 				}
 				projectile.Kill();
 			}
@@ -76,6 +100,11 @@ namespace clericclass.Weapons.Lifesteals
 					num3 = num498;
 				}
 				*/
+			}
+			else if (projectile.type == ModContent.ProjectileType<Hell.HardHell.BrimstoneSteal>())
+            {
+				Dust d = Dust.NewDustDirect(projectile.position, projectile.width, projectile.height, ModContent.DustType<Dusts.BrimstoneDust>());
+				d.noGravity = true;
 			}
 		}
 	}

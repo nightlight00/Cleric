@@ -49,7 +49,7 @@ namespace clericclass.Armor.Astrid
 			if (++projectile.frameCounter >= 5)
 			{
 				projectile.frameCounter = 0;
-				if (++projectile.frame >= 2)
+				if (++projectile.frame >= 4)
 				{
 					projectile.frame = 0;
 				}

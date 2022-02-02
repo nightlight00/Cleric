@@ -12,6 +12,7 @@ using clericclass.Weapons.Templates;
 
 namespace clericclass.Armor.Heartbeat
 {
+
     [AutoloadEquip(EquipType.Head)]
     class HeartbeatMask : ModItem
     {
@@ -65,7 +66,8 @@ namespace clericclass.Armor.Heartbeat
             var modPlayer = clericmodplayer.ModPlayer(player);
             player.setBonus = "Double tap down to activate / deactivate 'Heartbreak'" +
                             "\nWhile in 'Heartbreak', necrotic damage is greatly increased while your life force suffers" +
-                            "\nSlightly increased life regen while 'Heartbreak' is deactivated";
+                            "\nSlightly increased life regen while 'Heartbreak' is deactivated" +
+                            "\nWhile under 25% health and 'Heartbreak' is active, gain Panic!";
 
             player.GetModPlayer<modplayer>().heartSetBonus = true;
             if (player.controlDown && player.releaseDown && player.doubleTapCardinalTimer[0] < 15)
@@ -79,6 +81,10 @@ namespace clericclass.Armor.Heartbeat
             }
             if (heartbreak)
             {
+                if (player.statLife <= player.statLifeMax2 * 0.25f)
+                {
+                    player.AddBuff(BuffID.Panic, 2, true);
+                }
                 timer++;
                 modPlayer.clericNecroticMult += heartStrength;
                 if (timer == 3 || timer == 9) {

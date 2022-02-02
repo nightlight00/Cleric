@@ -13,22 +13,22 @@ namespace clericclass.Weapons.Hell
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Devilish Pitchfork");
-			Tooltip.SetDefault("Conjures a demonic pitchfork to rise from the ground"
-						   + "\nStruck foes summon additional pitchforks");
+			Tooltip.SetDefault("Conjures a lava geyser at the cursor");
+			Item.staff[item.type] = true;
 		}
 
 		public override void SafeSetDefaults()
 		{
 			item.damage = 35;
-			item.width = 30;
-			item.height = 84;
+			item.width = item.height = 66;
 			item.useTime = item.useAnimation = 26;
-			item.useStyle = ItemUseStyleID.HoldingUp;
+			item.useStyle = ItemUseStyleID.HoldingOut;
 			item.knockBack = 1.8f;
 			item.value = 10000;
 			item.rare = 3;
 			item.UseSound = SoundID.Item88;
-			item.shoot = ModContent.ProjectileType<DevilPitchfork2>();
+			item.shootSpeed = 0.1f;
+			item.shoot = ModContent.ProjectileType<FirePillar>();
 			item.noMelee = true;
 
 			clericEvil = true;
@@ -39,7 +39,7 @@ namespace clericclass.Weapons.Hell
 		{
 			player.FindSentryRestingSpot(type, out int worldX, out int worldY, out int pushYUp);
 			//Projectile.NewProjectile(worldX, worldY - pushYUp, 0f, 0f, type, damage, knockBack, Main.myPlayer);
-			Projectile.NewProjectileDirect(new Vector2(worldX, worldY + (pushYUp * 3)), new Vector2(0, -12), type, damage, knockBack, player.whoAmI, 0);
+			Projectile.NewProjectileDirect(new Vector2(worldX, worldY), Vector2.Zero, type, damage, knockBack, player.whoAmI, 0);
 			return false;
 		}
 
@@ -60,6 +60,41 @@ namespace clericclass.Weapons.Hell
 			recipe1.AddRecipe();
 		}
 	}
+
+	class FirePillar : clericProj
+    {
+		public override string Texture => "Terraria/Projectile_" + ProjectileID.Fireball;
+
+		public override void SafeSetDefaults()
+		{
+			projectile.width = 32;
+			projectile.height = 32;
+			projectile.friendly = true;
+			projectile.alpha = 255;
+			projectile.timeLeft = 50;
+			projectile.penetrate = -1;
+		}
+
+		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+		{
+			target.AddBuff(BuffID.OnFire, 90);
+		}
+
+		public override void AI()
+		{
+			projectile.height += 3;
+			projectile.position.Y -= 3;
+
+			for (var i = 0; i < 2; i++)
+			{
+				Dust d = Dust.NewDustDirect(projectile.position, projectile.width, projectile.height, 6, 0, -3);
+				d.noGravity = true;
+				d.scale = Main.rand.NextFloat() + 1.7f;
+				d.velocity.X *= 0.3f;
+			}
+		}
+	}
+
 	class DevilPitchfork2 : clericProj
 	{
 		public override void SetStaticDefaults()

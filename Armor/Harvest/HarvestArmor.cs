@@ -10,6 +10,35 @@ using clericclass.Weapons.Templates;
 
 namespace clericclass.Armor.Harvest
 {
+    class BalefulHarvest : ModBuff
+    {
+        public override void SetDefaults()
+        {
+            DisplayName.SetDefault("Baleful Harvest");
+            Description.SetDefault("Rapidly losing life and extra damage when hit");
+            Main.buffNoTimeDisplay[Type] = false;
+            Main.debuff[Type] = true;
+        }
+
+        public override void Update(NPC npc, ref int buffIndex)
+        {
+            npc.GetGlobalNPC<modglobalnpc>().balefulHarvest = true;
+            Dust dst = Dust.NewDustDirect(npc.position, npc.width, npc.height, 109, Main.rand.NextFloat(-1, 1), -2);
+            dst.scale = Main.rand.NextFloat(1.2f, 1.5f);
+            dst.fadeIn = dst.scale * 1.3f;
+            dst.noGravity = true;
+        }
+
+        public override void Update(Player player, ref int buffIndex)
+        {
+            player.GetModPlayer<modplayer>().balefulHarvest = true;
+            Dust dst = Dust.NewDustDirect(player.position, player.width, player.height, 109, Main.rand.NextFloat(-1, 1), -2);
+            dst.scale = Main.rand.NextFloat(1.2f, 1.5f);
+            dst.fadeIn = dst.scale * 1.3f;
+            dst.noGravity = true;
+        }
+    }
+
 
     [AutoloadEquip(EquipType.Head)]
     class HarvestMask : ModItem
@@ -44,12 +73,12 @@ namespace clericclass.Armor.Harvest
 
         public override void UpdateArmorSet(Player player)
         {
-            player.setBonus = "Spins 2 deadly pumpkin scythes around you \nCleric life steal can critically heal \n10% increased necrotic damage and cleric critical strike chance";
+            player.setBonus = "Necoritc attacks can inflict Baleful Harvest \n12% increased necrotic damage and cleric critical strike chance";
             // rework this into : nearby foes are inflicted with holy fire , healing allies gives them 'vengeful flames' (thorns but holy fire)
 
             var modPlayer = clericmodplayer.ModPlayer(player);
-            modPlayer.clericNecroticMult += 0.1f;
-            modPlayer.clericCrit += 10;
+            modPlayer.clericNecroticMult += 0.12f;
+            modPlayer.clericCrit += 12;
             player.GetModPlayer<modplayer>().harvestSetBonus = true;
 
         }
@@ -82,7 +111,7 @@ namespace clericclass.Armor.Harvest
         {
             DisplayName.SetDefault("Grim Harvest Jacket");
             Tooltip.SetDefault("10% increased cleric critical strike chance" +
-                             "\nBlood cost decreased by 18%");
+                             "\nBlood cost decreased by 22%");
         }
 
         public override void SetDefaults()
@@ -97,7 +126,7 @@ namespace clericclass.Armor.Harvest
         {
             var modPlayer = clericmodplayer.ModPlayer(player);
             modPlayer.clericCrit += 10;
-            player.GetModPlayer<modplayer>().bloodCostMult += 0.18f;
+            player.GetModPlayer<modplayer>().bloodCostMult += 0.22f;
         }
         public override void AddRecipes()
         {

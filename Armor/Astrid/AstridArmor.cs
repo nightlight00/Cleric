@@ -58,18 +58,14 @@ namespace clericclass.Armor.Astrid
         public override void UpdateArmorSet(Player player)
         {
             var modPlayer = clericmodplayer.ModPlayer(player);
-            player.setBonus = "Summons in ice elemental to fight for you \ndev note : change this set bonus later";
+            player.setBonus = "Healing gives an additinal 3 health \ndev note : change this set bonus later";
             /*  player.setBonus = "Double tap down to activate 'Niflheim'" + 
                               "\nWhile 'Niflheim' is active, a storm of snow bellows from within you" +
                               "\nThe snow damages enemies and heals allies, but comes at a blood cost";
             */
 
-            if (player.ownedProjectileCounts[ModContent.ProjectileType<IceElem>()] == 0)
-            {
-                Projectile.NewProjectile(player.Center, new Vector2(0, -3), ModContent.ProjectileType<IceElem>(), 0, 0, player.whoAmI);
-            }
-
-            player.GetModPlayer<modplayer>().astridSetElemental = true;
+            player.GetModPlayer<modplayer>().healBonus += 3;
+           // player.GetModPlayer<modplayer>().astridSetElemental = true;
             /*
             for (int i = 0; i < 30; i++)
             {
@@ -109,7 +105,7 @@ namespace clericclass.Armor.Astrid
         {
             //DisplayName.SetDefault("Flamesilk Hat");
             Tooltip.SetDefault("14% increased necrotic damage" +
-                             "\nIncreased life regen");
+                             "\nBlood cost reduced by 10%");
 
         }
 
@@ -127,7 +123,7 @@ namespace clericclass.Armor.Astrid
         {
             var modPlayer = clericmodplayer.ModPlayer(player);
             modPlayer.clericNecroticMult += 0.14f;
-            player.lifeRegen += 1;
+            player.GetModPlayer<modplayer>().bloodCostMult += 0.1f;
         }
 
         public override bool IsArmorSet(Item head, Item body, Item legs)

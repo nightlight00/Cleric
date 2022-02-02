@@ -51,6 +51,16 @@ namespace clericclass.Armor.Priest
 
             player.GetModPlayer<modplayer>().priestSetBonus = true;
         }
+
+        public override void AddRecipes()
+        {
+            ModRecipe recipe = new ModRecipe(mod);
+            recipe.AddIngredient(ItemID.Silk, 10);
+            recipe.AddIngredient(ItemID.FallenStar);
+            recipe.AddTile(TileID.Loom);
+            recipe.SetResult(this);
+            recipe.AddRecipe();
+        }
     }
 
     [AutoloadEquip(EquipType.Body)]
@@ -83,6 +93,15 @@ namespace clericclass.Armor.Priest
             var modPlayer = clericmodplayer.ModPlayer(player);
             modPlayer.clericCrit += 4;
         }
+        public override void AddRecipes()
+        {
+            ModRecipe recipe = new ModRecipe(mod);
+            recipe.AddIngredient(ItemID.Silk, 14);
+            recipe.AddIngredient(ItemID.FallenStar);
+            recipe.AddTile(TileID.Loom);
+            recipe.SetResult(this);
+            recipe.AddRecipe();
+        }
     }
 
     [AutoloadEquip(EquipType.Legs)]
@@ -107,6 +126,15 @@ namespace clericclass.Armor.Priest
         {
             var modPlayer = clericmodplayer.ModPlayer(player);
             modPlayer.clericNecroticMult += 0.04f;
+        }
+        public override void AddRecipes()
+        {
+            ModRecipe recipe = new ModRecipe(mod);
+            recipe.AddIngredient(ItemID.Silk, 12);
+            recipe.AddIngredient(ItemID.FallenStar);
+            recipe.AddTile(TileID.Loom);
+            recipe.SetResult(this);
+            recipe.AddRecipe();
         }
     }
 }
