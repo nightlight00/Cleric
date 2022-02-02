@@ -124,11 +124,20 @@ namespace clericclass.Acessories.Buffs
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.Chain, 3);
-            recipe.AddIngredient(ItemID.Wood, 5);
+            recipe.AddIngredient(ItemID.Shackle);
+            recipe.AddIngredient(ItemID.IronBar, 3);
+            recipe.AddIngredient(ItemID.Gel, 20);
             recipe.AddTile(TileID.Campfire);
             recipe.SetResult(this);
             recipe.AddRecipe();
+
+            ModRecipe recipe1 = new ModRecipe(mod);
+            recipe1.AddIngredient(ItemID.Shackle);
+            recipe1.AddIngredient(ItemID.LeadBar, 3);
+            recipe1.AddIngredient(ItemID.Gel, 20);
+            recipe1.AddTile(TileID.Campfire);
+            recipe1.SetResult(this);
+            recipe1.AddRecipe();
         }
     }
 
@@ -148,6 +157,7 @@ namespace clericclass.Acessories.Buffs
             item.width = item.height = 34;
             item.rare = 2;
         }
+
         public override void UpdateEquip(Player player)
         {
             player.GetModPlayer<modplayer>().healSummer = true;
